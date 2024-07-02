@@ -5,8 +5,9 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.management.Query;
+import java.util.*;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * 二叉树
@@ -120,19 +121,63 @@ public class BinaryTree {
      * 前序（根左右）、中序（左根右）、后序（左右根）
      * @param root
      */
-    public static void selectBinaryTree(TreeNode root){
+    public static void recursionOrder(TreeNode root){
         if(null == root){
             return;
         }
         // 前序遍历1245673
         // System.out.println(root.value);
-        selectBinaryTree(root.leftNode);
+        recursionOrder(root.leftNode);
         // 中序遍历4265713
         // System.out.println(root.value);
-        selectBinaryTree(root.rightNode);
+        recursionOrder(root.rightNode);
         // 后序遍历4675231
         System.out.println(root.value);
 
+    }
+
+    /**
+     * 二叉树遍历-递归
+     * 层序遍历
+     * @param root
+     */
+    public static void levelOrder(TreeNode root, int index, List<Integer> list){
+        if(null == root || index < 1){
+            return;
+        }
+        int lenght = list.size();
+        if(lenght <= index){
+            for(int i=0; i<=index-lenght; i++){
+                list.add(lenght+i,null);
+            }
+        }
+        list.set(index,root.value);
+        // 前序遍历1234567
+        levelOrder(root.leftNode,2*index,list);
+        levelOrder(root.rightNode,2*index+1,list);
+    }
+
+    /**
+     * 二叉树遍历-迭代
+     * 层序遍历
+     * @param root
+     */
+    public static void levelOrder(TreeNode root){
+        if(null == root){
+            return;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            TreeNode currNode = queue.poll();
+            System.out.print(currNode.value + " ");
+            if(null != currNode.leftNode){
+                queue.offer(currNode.leftNode);
+            }
+            if(null != currNode.rightNode){
+                queue.offer(currNode.rightNode);
+            }
+        }
     }
 
 
@@ -145,7 +190,12 @@ public class BinaryTree {
         TreeNode node2 = new TreeNode(2, node4, node5);
         TreeNode node1 = new TreeNode(1, node2, node3);
 
-        selectBinaryTree(node1);
+        levelOrder(node1);
+
+        /*List<Integer> list = new ArrayList<>();
+        levelOrder(node1,1,list);
+        list.removeIf(item -> item == null);
+        System.out.println(Arrays.toString(list.toArray()));*/
 
         //TreeNode fullTrue = buildFullTree(3, 1);
         //System.out.println(minDepth(node1));
