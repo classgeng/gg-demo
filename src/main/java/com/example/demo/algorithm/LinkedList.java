@@ -2,6 +2,8 @@ package com.example.demo.algorithm;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 单向链表
@@ -26,6 +28,9 @@ public class LinkedList {
      * @return
      */
     public static LinkedNode reversal(LinkedNode currNode){
+        if(null == currNode || null == currNode.next){
+            return null;
+        }
         LinkedNode next,prev = null;
         while (currNode != null){
             next = currNode.next;
@@ -43,7 +48,7 @@ public class LinkedList {
      */
     public static LinkedNode recursion(LinkedNode currNode){
         if(null == currNode || null == currNode.next){
-            return currNode;
+            return null;
         }
         LinkedNode prev = recursion(currNode.next);
         currNode.next.next = currNode;
@@ -98,15 +103,14 @@ public class LinkedList {
         LinkedNode node2 = new LinkedNode(2,node3);
         LinkedNode node1 = new LinkedNode(1,node2);
 
-        /*LinkedNode prev = recursion(node1);
+        LinkedNode prev = recursion(node1);
         while (null != prev){
             System.out.println(prev.value);
             prev = prev.next;
-        }*/
+        }
 
         //node5.next = node3;
-        System.out.println(hasCycle1(node1));
-
+        //System.out.println(hasCycle1(node1));
 
     }
 
